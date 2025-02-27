@@ -6,7 +6,7 @@ SELECT pg_size_pretty(pg_database_size('db_name'));
 SELECT pg_size_pretty(pg_total_relation_size('"public"."lid_subscription"'));
 
 -- column size
-SELECT sum(pg_column_size(column_name)) FROM table_name;
+SELECT pg_size_pretty(sum(pg_column_size(column_name))) FROM table_name;
 
 -- список установленных расширений (EXTENSIONS) с версиям
 select * from pg_available_extensions where installed_version is not null; 		                                    и
