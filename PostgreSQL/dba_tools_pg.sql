@@ -27,13 +27,13 @@ select indexrelname, idx_scan from pg_stat_user_indexes where indexrelname= 'idx
 SELECT d.datname, s.setconfig 
 FROM pg_database d
 LEFT JOIN pg_db_role_setting s ON d.oid = s.setdatabase
-WHERE d.datname = 'test';
+WHERE d.datname = 'db_name'; -- or current_database()
 
 -- или так
 SELECT datname, unnest(setconfig) AS setting
 FROM pg_database d
 LEFT JOIN pg_db_role_setting s ON d.oid = s.setdatabase
-WHERE datname = 'test' AND setconfig IS NOT NULL;
+WHERE datname = 'db_name' AND setconfig IS NOT NULL; -- or current_database()
 
 -- или так
 psql -d test -c "SHOW config_name;"
