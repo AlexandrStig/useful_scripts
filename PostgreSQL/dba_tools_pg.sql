@@ -37,3 +37,10 @@ WHERE datname = 'db_name' AND setconfig IS NOT NULL; -- or current_database()
 
 -- или так
 psql -d test -c "SHOW config_name;"
+
+  
+-- Долгие транзакции (>5 минут)
+SELECT pid, now() - xact_start AS duration, query 
+FROM pg_stat_activity 
+WHERE state != 'idle' AND usename = 'keycloak'
+ORDER BY duration DESC;
