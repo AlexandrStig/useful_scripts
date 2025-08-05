@@ -1,16 +1,3 @@
--- database size 
-SELECT pg_size_pretty(pg_database_size(current_database()));
-SELECT pg_size_pretty(pg_database_size('db_name'));
-
--- table size
-SELECT pg_size_pretty(pg_total_relation_size('"public"."lid_subscription"'));
-
--- column size
-SELECT pg_size_pretty(sum(pg_column_size(column_name))) FROM table_name;
-
--- список установленных расширений (EXTENSIONS) с версиями
-select * from pg_available_extensions where installed_version is not null;
-
 -- просмотр статистики по полю column_name в таблице table_name
 select * from pg_stats where tablename = 'table_name' and attname = 'column_name';		
 
