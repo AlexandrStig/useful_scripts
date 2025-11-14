@@ -3,5 +3,13 @@
 -- usename и datname = NULL - фоновые службы PostgreSQL
 SELECT client_addr, usename, datname, count(*)
 FROM pg_stat_activity
+-- WHERE backend_type = 'client backend' -- исключить фоновые процессы
+GROUP BY 1,2,3
+ORDER BY 4 DESC;
+
+
+SELECT client_addr, usename, datname, count(*)
+FROM pg_stat_activity
+
 GROUP BY 1,2,3
 ORDER BY 4 DESC;
