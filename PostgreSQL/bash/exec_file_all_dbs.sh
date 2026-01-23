@@ -17,7 +17,7 @@ echo "Хост: $HOST, Порт: $PORT, Пользователь: $USER" | tee -
 echo "SQL файл: $SQL_FILE" | tee -a "$LOG_FILE"
 echo "==========================================" | tee -a "$LOG_FILE"
 
-# Получаем список всех баз данных
+# Получить список всех баз данных
 DATABASES=$(psql -h $HOST -p $PORT -U $USER -d $STARTDB -t -c "
 SELECT datname
 FROM pg_database
@@ -25,18 +25,17 @@ WHERE datistemplate = false
 AND datname NOT IN ('$EXCLUDE_DBS')
 ORDER BY datname;")
 
-# Проверяем, что файл существует
+# Проверить, что файл существует
 if [ ! -f "$SQL_FILE" ]; then
     echo "ОШИБКА: Файл $SQL_FILE не найден!" | tee -a "$LOG_FILE"
     exit 1
 fi
 
-# Выполняем скрипт в каждой базе данных
+# Выполнить скрипт в каждой базе данных и логируем вывод
 for DB in $DATABASES; do
     echo "Database: $DB" | tee -a "$LOG_FILE"
     echo "Start: $(date '+%H:%M:%S')" | tee -a "$LOG_FILE"
 
-    # Выполняем SQL файл и логируем вывод
     if PGPASSWORD=$PGPASSWORD psql -h $HOST -p $PORT -U $USER -d "$DB" -f "$SQL_FILE" >> "$LOG_FILE" 2>&1; then
         echo "✅ Ok: $DB completed" | tee -a "$LOG_FILE"
     else
