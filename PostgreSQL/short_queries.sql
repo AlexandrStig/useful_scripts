@@ -33,5 +33,5 @@ WHERE state != 'idle' AND usename = 'keycloak'
 ORDER BY duration DESC;
 
 -- посчитать кол-во строк в таблице без select count(*)
-SELECT (reltuples/relpages*pg_relation_size(:'relname')/8192)::bigint FROM pg_class WHERE oid = :'relname'::regclass;
+SELECT (reltuples/relpages*pg_relation_size('schema.relname')/8192)::bigint FROM pg_class WHERE oid = 'schema.relname'::regclass;
 
