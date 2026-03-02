@@ -10,7 +10,7 @@ SELECT slot_name,
        ) as flush_lag_size,
        -- Когда слот приближается к лимиту
        CASE WHEN pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) > 
-                 (setting::bigint * 0.8) 
+                 (setting::numeric * 1024 * 1024 * 0.8) 
             THEN 'WARNING'
             ELSE 'OK'
        END as status
