@@ -9,10 +9,12 @@ SELECT slot_name,
          pg_wal_lsn_diff(pg_current_wal_lsn(), confirmed_flush_lsn)
        ) as flush_lag_size,
        -- Когда слот приближается к лимиту
-       CASE WHEN pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) > 
-                 (setting::numeric * 1024 * 1024 * 0.8) 
+       CASE 
+         WHEN active = false THEN 'INACTIVE'
+         WHEN pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) > 
+              (setting::numeric * 1024 * 1024 * 0.8) 
             THEN 'WARNING'
-            ELSE 'OK'
+         ELSE 'OK'
        END as status
 FROM pg_replication_slots,
      pg_settings 
