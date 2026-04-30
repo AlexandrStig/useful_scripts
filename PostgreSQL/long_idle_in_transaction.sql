@@ -5,8 +5,8 @@ SELECT
     state,
     backend_xmin,
     age(backend_xmin) AS xmin_age,
-    now() - xact_start AS transaction_duration,
-    now() - state_change AS idle_duration,
+    clock_timestamp() - xact_start AS transaction_duration,
+    clock_timestamp() - state_change AS idle_duration,
     wait_event_type,
     wait_event,
     left(query, 200) AS sample_query
